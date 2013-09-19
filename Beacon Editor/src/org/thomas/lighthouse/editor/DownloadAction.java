@@ -9,17 +9,28 @@ public class DownloadAction extends AbstractAction {
 	private static final long serialVersionUID = 3269471814489163489L;
 	
 	private EditorPane p;
+	private SFTPPanel panel;
 	
-	public DownloadAction(EditorPane p) {
+	public DownloadAction(EditorPane p, SFTPPanel panel) {
 		this.p = p;
+		this.panel = panel;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String name = JOptionPane.showInputDialog("What is your username?");
-		String host = JOptionPane.showInputDialog("What is the host?");
-		String directory = JOptionPane.showInputDialog("What is your project directory (full path please)?");
-		String password = JOptionPane.showInputDialog("What is your password?");
-		p.download(name, host, directory, password);
+		String[] options = new String[]{"Download", "Cancel"};
+		int option = JOptionPane.showOptionDialog(null, 
+				panel, 
+				"SFTP Upload",
+				JOptionPane.NO_OPTION,
+				JOptionPane.PLAIN_MESSAGE,
+				null,
+				options,
+				options[1]);
+		if (option != 0) return;
+		p.download(panel.getFTPName(), 
+				panel.getHost(), 
+				panel.getDirectory(), 
+				panel.getPassword());
 	}
 }

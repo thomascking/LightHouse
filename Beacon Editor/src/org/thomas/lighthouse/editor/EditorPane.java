@@ -73,7 +73,7 @@ KeyListener, DocumentListener, UndoableEditListener {
 		
 		sftpPanel = new SFTPPanel();
 		upload = new UploadAction(this, sftpPanel);
-		download = new DownloadAction(this);
+		download = new DownloadAction(this, sftpPanel);
 		
 		undoAction = new UndoAction();
 		redoAction = new RedoAction();
@@ -135,7 +135,7 @@ KeyListener, DocumentListener, UndoableEditListener {
 			ch.connect();
 			sftp = (ChannelSftp) ch;
 			sftp.cd(projectDirectory);
-			out = sftp.put("test.xml");
+			out = sftp.put("survey.xml");
 			String str = this.getText().replaceAll("\r", "");
 			out.write(str.getBytes());
 			out.flush();
@@ -166,7 +166,7 @@ KeyListener, DocumentListener, UndoableEditListener {
 			ch.connect();
 			sftp = (ChannelSftp) ch;
 			sftp.cd(projectDirectory);
-			in = sftp.get("test.xml");
+			in = sftp.get("survey.xml");
 			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner(in).useDelimiter("\\A");
 			String str = scanner.next();
