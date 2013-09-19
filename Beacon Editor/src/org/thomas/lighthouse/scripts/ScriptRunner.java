@@ -8,7 +8,7 @@ public class ScriptRunner {
 	
 	public ScriptRunner(String filename) {
 		command = new String[3];
-		command[0] = "C:\\Python27\\python.exe";
+		command[0] = "python";
 		command[1] = filename;
 		command[2] = "";
 	}
