@@ -15,7 +15,7 @@ try:
     input = input.replace("&amp;#", "&#")
     
     HEADER = """<?xml version="1.0" encoding="UTF-8"?>
-<survey name="Survey" alt="" autosave="0" extraVariables="source,list,url,record,ipAddress,userAgent,decLang" compat="114" builderCompatible="1" secure="0" state="testing" setup="time,term,quota,decLang" ss:disableBackButton="1" unique="">
+<survey name="Survey" alt="" autosave="0" extraVariables="source,list,url,record,ipAddress,userAgent,flashDetected,decLang" compat="114" builderCompatible="1" secure="0" state="testing" setup="time,term,quota,decLang" ss:disableBackButton="1" ss:colorScheme="theme_red-01" fixedWidth="tight">
 
 <samplesources default="0">
   <samplesource list="0" title="default">
