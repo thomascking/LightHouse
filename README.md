@@ -35,7 +35,7 @@ Link projects to remote server
 
 Allow editing in multiple tabs
 
-~Group scripts (by folders maybe?)~
+Allow script ordering
 
 Allow tabbing of all selected lines
 
