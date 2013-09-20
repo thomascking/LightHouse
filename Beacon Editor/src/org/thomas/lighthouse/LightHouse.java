@@ -4,8 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
@@ -100,8 +103,16 @@ public class LightHouse extends JFrame {
 				}
 			}
 		}
-		Component c = new EditorScrollPane(new EditorPane(f));
-		tabPane.addTab(f.getName(), c);
+		EditorPane e = new EditorPane(f);
+		currentPane = e;
+		JPanel p = new JPanel(new BorderLayout());
+		p.add(e, BorderLayout.CENTER);
+		Component c = new EditorScrollPane(p, e);
+		Path pathAbsolute = Paths.get(f.getAbsolutePath());
+        Path pathBase = Paths.get(LightHouse.project.localDirectory.getAbsolutePath());
+        Path pathRelative = pathBase.relativize(pathAbsolute);
+        String diff = pathRelative.toString().replace("\\", "/");
+		tabPane.addTab(diff, c);
 		tabPane.setSelectedComponent(c);
 	}
 }

@@ -21,7 +21,7 @@ public class DownloadAction extends AbstractAction {
 		String[] options = new String[]{"Download", "Cancel"};
 		int option = JOptionPane.showOptionDialog(null, 
 				LightHouse.sftPanel, 
-				"SFTP Upload",
+				"SFTP Download",
 				JOptionPane.NO_OPTION,
 				JOptionPane.PLAIN_MESSAGE,
 				null,

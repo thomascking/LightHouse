@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
+import org.thomas.lighthouse.project.DownloadAllAction;
 import org.thomas.lighthouse.project.NewProjectAction;
 import org.thomas.lighthouse.project.OpenProjectAction;
 
@@ -18,5 +19,11 @@ public class LHToolBar extends JToolBar {
 		JButton openButton = new JButton(new OpenProjectAction());
 		openButton.setIcon(new ImageIcon("images/open_project.png"));
 		add(openButton);
+		
+		addSeparator();
+		
+		JButton downloadButton = new JButton(new DownloadAllAction());
+		downloadButton.setIcon(new ImageIcon("images/download_all.png"));
+		add(downloadButton);
 	}
 }

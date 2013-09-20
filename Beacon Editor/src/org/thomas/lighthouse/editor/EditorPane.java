@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
@@ -27,6 +29,8 @@ import javax.swing.text.Keymap;
 import javax.swing.text.StyledDocument;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
+
+import org.thomas.lighthouse.LightHouse;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -145,7 +149,11 @@ KeyListener, DocumentListener, UndoableEditListener {
 			ch.connect();
 			sftp = (ChannelSftp) ch;
 			sftp.cd(projectDirectory);
-			out = sftp.put("survey.xml");
+			Path pathAbsolute = Paths.get(file.getAbsolutePath());
+	        Path pathBase = Paths.get(LightHouse.project.localDirectory.getAbsolutePath());
+	        Path pathRelative = pathBase.relativize(pathAbsolute);
+	        String diff = pathRelative.toString().replace("\\", "/");
+			out = sftp.put(diff);
 			String str = this.getText().replaceAll("\r", "");
 			out.write(str.getBytes());
 			out.flush();
@@ -176,7 +184,11 @@ KeyListener, DocumentListener, UndoableEditListener {
 			ch.connect();
 			sftp = (ChannelSftp) ch;
 			sftp.cd(projectDirectory);
-			in = sftp.get("survey.xml");
+			Path pathAbsolute = Paths.get(file.getAbsolutePath());
+	        Path pathBase = Paths.get(LightHouse.project.localDirectory.getAbsolutePath());
+	        Path pathRelative = pathBase.relativize(pathAbsolute);
+	        String diff = pathRelative.toString().replace("\\", "/");
+			in = sftp.get(diff);
 			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner(in).useDelimiter("\\A");
 			String str = scanner.next();
