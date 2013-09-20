@@ -35,5 +35,11 @@ Link projects to remote server
 
 Allow editing in multiple tabs
 
-Group scripts (by folders maybe?)
+_Group scripts (by folders maybe?)_
+
+Allow tabbing of all selected lines
+
+Replace all tab characters with tab value on paste
+
+Create an executable
 
