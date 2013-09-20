@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 import org.thomas.lighthouse.editor.EditorPane;
 import org.thomas.lighthouse.editor.EditorScrollPane;
 import org.thomas.lighthouse.editor.SFTPPanel;
+import org.thomas.lighthouse.project.NewProjectPanel;
 import org.thomas.lighthouse.project.Project;
 import org.thomas.lighthouse.project.ProjectPanel;
 import org.thomas.lighthouse.scripts.ScriptPanel;
@@ -21,6 +22,7 @@ public class LightHouse extends JFrame {
 	
 	public static Project project;
 	public static SFTPPanel sftPanel;
+	public static NewProjectPanel newProjectPanel;
 	public static EditorPane currentPane;
 	
 	private Dimension size = new Dimension(800, 600);
@@ -29,6 +31,13 @@ public class LightHouse extends JFrame {
 	
 	private static LightHouse lh;
 	private static JTabbedPane tabPane;
+	private static ProjectPanel projectPanel;
+	
+	public static void setProject(Project p) {
+		project = p;
+		projectPanel.update();
+		lh.revalidate();
+	}
 
 	public static void main(String[] args) {
 		loadConfig(new File("settings.txt"));
@@ -43,6 +52,7 @@ public class LightHouse extends JFrame {
 			project = null;
 		}
 		sftPanel = new SFTPPanel();
+		newProjectPanel = new NewProjectPanel();
 		
 		tabPane = new JTabbedPane();
 		
@@ -72,9 +82,12 @@ public class LightHouse extends JFrame {
 		temp.getVerticalScrollBar().setUnitIncrement(8);
 		add(temp, BorderLayout.EAST);
 		
-		temp = new JScrollPane(new ProjectPanel());
+		projectPanel = new ProjectPanel();
+		temp = new JScrollPane(projectPanel);
 		temp.getVerticalScrollBar().setUnitIncrement(8);
 		add(temp, BorderLayout.WEST);
+		
+		add(new LHToolBar(), BorderLayout.NORTH);
 	}
 	
 	public static void addTab(File f) {

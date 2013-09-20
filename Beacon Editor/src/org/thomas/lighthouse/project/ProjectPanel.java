@@ -1,5 +1,6 @@
 package org.thomas.lighthouse.project;
 
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -15,11 +16,16 @@ public class ProjectPanel extends JPanel implements MouseListener {
 	private JTree tree;
 	
 	public ProjectPanel() {
+		update();
+	}
+	
+	public void update() {
 		if (LightHouse.project != null) {
 			tree = new JTree(createNode(LightHouse.project.getWorkingDirectory()));
 			tree.addMouseListener(this);
 			add(tree);
 		}
+		repaint();
 	}
 	
 	public ProjectFileNode createNode(File file) {
@@ -39,7 +45,7 @@ public class ProjectPanel extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
 			ProjectFileNode node = (ProjectFileNode)tree.getLastSelectedPathComponent();
-			if (node.isLeaf()) {
+			if (node.isLeaf() && !node.isRoot()) {
 				LightHouse.addTab((File)node.getUserObject());
 			}
 		}
