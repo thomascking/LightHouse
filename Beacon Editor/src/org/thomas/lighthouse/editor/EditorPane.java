@@ -45,18 +45,30 @@ KeyListener, DocumentListener, UndoableEditListener {
 	UndoAction undoAction;
 	RedoAction redoAction;
 	
-	JFileChooser fc;
+	JFileChooser fileChooser = new JFileChooser();
 	SaveAction save;
 	SaveAction saveAs;
 	OpenAction open;
 	
-	SFTPPanel sftpPanel;
 	UploadAction upload;
 	DownloadAction download;
 	
 	String validCharacters = "[A-Za-z0-9_ =\"\'()&;]";
 	
+	public File file = null;
+	
 	public EditorPane() {
+		init();
+	}
+	
+	public EditorPane(File load) {
+		open(load);
+		init();
+		fileChooser.setSelectedFile(load);
+		file = load;
+	}
+	
+	public void init() {
 		this.addKeyListener(this);
 		doc = this.getStyledDocument();
 		doc.addDocumentListener(this);
@@ -66,14 +78,12 @@ KeyListener, DocumentListener, UndoableEditListener {
 		
 		undo = new UndoManager();
 		
-		fc = new JFileChooser();
-		save = new SaveAction(this, fc);
-		saveAs = new SaveAction(this, fc, true);
-		open = new OpenAction(this, fc);
+		save = new SaveAction(this, fileChooser);
+		saveAs = new SaveAction(this, fileChooser, true);
+		open = new OpenAction(this, fileChooser);
 		
-		sftpPanel = new SFTPPanel();
-		upload = new UploadAction(this, sftpPanel);
-		download = new DownloadAction(this, sftpPanel);
+		upload = new UploadAction(this);
+		download = new DownloadAction(this);
 		
 		undoAction = new UndoAction();
 		redoAction = new RedoAction();

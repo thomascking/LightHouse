@@ -16,30 +16,30 @@ public class SFTPPanel extends JPanel {
 	public SFTPPanel() {
 		super(new SpringLayout());
 		String[] labels = {"Username: ", "Host: ", "Directory: ", "Password: "};
-        int numPairs = labels.length;
-        for (int i = 0; i < numPairs; i++) {
-            JLabel l = new JLabel(labels[i], JLabel.TRAILING);
-            this.add(l);
-            if (labels[i] == "Password: ") {
-            	fields[i] = new JPasswordField(10);
-            }
-            else {
-            	fields[i] = new JTextField(10);
-            }
-            l.setLabelFor(fields[i]);
-            this.add(fields[i]);
-        }
-        fields[2].setText("/home/jaminb/v2/");
- 
-        //Lay out the panel.
-        SpringUtilities.makeCompactGrid(this,
-                                        numPairs, 2, //rows, cols
-                                        6, 6,        //initX, initY
-                                        6, 6);       //xPad, yPad
- 
- 
-        //Set up the content pane.
-        this.setOpaque(true);  //content panes must be opaque
+		int numPairs = labels.length;
+		
+		for (int i = 0; i < numPairs; i++) {
+			JLabel l = new JLabel(labels[i], JLabel.TRAILING);
+			this.add(l);
+			if (labels[i] == "Password: ") {
+				fields[i] = new JPasswordField(10);
+			}
+			else {
+				fields[i] = new JTextField(10);
+			}
+			l.setLabelFor(fields[i]);
+			this.add(fields[i]);
+		}
+		fields[1].setText("decipherinc.com");
+		fields[2].setText("/home/jaminb/v2/");
+		
+		//Lay out the panel.
+		SpringUtilities.makeCompactGrid(this,
+										numPairs, 2, //rows, cols
+										6, 6,        //initX, initY
+										6, 6);       //xPad, yPad
+		
+		this.setOpaque(true);  //content panes must be opaque
 	}
 	
 	public String getFTPName() {

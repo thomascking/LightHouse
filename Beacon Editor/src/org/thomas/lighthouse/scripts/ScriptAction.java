@@ -5,6 +5,7 @@ import java.io.File;
 
 import javax.swing.AbstractAction;
 
+import org.thomas.lighthouse.LightHouse;
 import org.thomas.lighthouse.editor.EditorPane;
 
 public class ScriptAction extends AbstractAction {
@@ -12,10 +13,8 @@ public class ScriptAction extends AbstractAction {
 	
 	String name = "";
 	ScriptRunner runner;
-	EditorPane p;
 
-	public ScriptAction(File file, EditorPane p) {
-		this.p = p;
+	public ScriptAction(File file) {
 		this.name = file.getName().replace(".py", "");
 		runner = new ScriptRunner(file.getAbsolutePath());
 	}
@@ -26,6 +25,7 @@ public class ScriptAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		EditorPane p = LightHouse.currentPane;
 		String selected = p.getSelectedText();
 		if (selected == null) selected = "";
 		String newString = "";

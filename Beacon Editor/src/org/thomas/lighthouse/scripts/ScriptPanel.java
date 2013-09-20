@@ -7,30 +7,28 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.thomas.lighthouse.editor.EditorPane;
-
 public class ScriptPanel extends JPanel {
 	private static final long serialVersionUID = 2346116728723944658L;
 	
 	ScriptAction[] actions;
 	
-	public ScriptPanel(EditorPane p) {
+	public ScriptPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		File f = new File(".\\Scripts");
-		this.add(getNode(f, p));
+		this.add(getNode(f));
 	}
 	
-	public Component getNode(File file, EditorPane p) {
+	public Component getNode(File file) {
 		if (file.isDirectory()) {
 			JPanel node = new JPanel();
 			node.setLayout(new BoxLayout(node, BoxLayout.Y_AXIS));
 			node.add(new JLabel(file.getName()));
 			for (File f : file.listFiles()) {
-				node.add(getNode(f, p));
+				node.add(getNode(f));
 			}
 			return node;
 		}
-		ScriptAction action = new ScriptAction(file, p);
+		ScriptAction action = new ScriptAction(file);
 		ScriptButton node = new ScriptButton(action);
 		return node;
 	}

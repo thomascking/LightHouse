@@ -5,22 +5,22 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.thomas.lighthouse.LightHouse;
+
 public class DownloadAction extends AbstractAction {
 	private static final long serialVersionUID = 3269471814489163489L;
 	
 	private EditorPane p;
-	private SFTPPanel panel;
 	
-	public DownloadAction(EditorPane p, SFTPPanel panel) {
+	public DownloadAction(EditorPane p) {
 		this.p = p;
-		this.panel = panel;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String[] options = new String[]{"Download", "Cancel"};
 		int option = JOptionPane.showOptionDialog(null, 
-				panel, 
+				LightHouse.sftPanel, 
 				"SFTP Upload",
 				JOptionPane.NO_OPTION,
 				JOptionPane.PLAIN_MESSAGE,
@@ -28,9 +28,9 @@ public class DownloadAction extends AbstractAction {
 				options,
 				options[0]);
 		if (option != 0) return;
-		p.download(panel.getFTPName(), 
-				panel.getHost(), 
-				panel.getDirectory(), 
-				panel.getPassword());
+		p.download(LightHouse.sftPanel.getFTPName(), 
+				LightHouse.sftPanel.getHost(), 
+				LightHouse.sftPanel.getDirectory(), 
+				LightHouse.sftPanel.getPassword());
 	}
 }
