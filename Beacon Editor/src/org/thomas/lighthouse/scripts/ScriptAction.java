@@ -1,6 +1,7 @@
 package org.thomas.lighthouse.scripts;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.swing.AbstractAction;
 
@@ -13,10 +14,10 @@ public class ScriptAction extends AbstractAction {
 	ScriptRunner runner;
 	EditorPane p;
 
-	public ScriptAction(String name, EditorPane p) {
+	public ScriptAction(File file, EditorPane p) {
 		this.p = p;
-		this.name = name.replace(".py", "");
-		runner = new ScriptRunner("scripts\\" + name);
+		this.name = file.getName().replace(".py", "");
+		runner = new ScriptRunner(file.getAbsolutePath());
 	}
 	
 	public String toString() {

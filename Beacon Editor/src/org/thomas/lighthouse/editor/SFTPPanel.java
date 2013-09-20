@@ -29,6 +29,7 @@ public class SFTPPanel extends JPanel {
             l.setLabelFor(fields[i]);
             this.add(fields[i]);
         }
+        fields[2].setText("/home/jaminb/v2/");
  
         //Lay out the panel.
         SpringUtilities.makeCompactGrid(this,

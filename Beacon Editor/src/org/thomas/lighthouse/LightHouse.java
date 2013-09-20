@@ -36,5 +36,6 @@ public class LightHouse extends JFrame {
 		panel.add(p, BorderLayout.CENTER);
 		add(new JScrollPane(panel), BorderLayout.CENTER);
 		add(new JScrollPane(new ScriptPanel(p)), BorderLayout.WEST);
+		p.requestFocus();
 	}
 }

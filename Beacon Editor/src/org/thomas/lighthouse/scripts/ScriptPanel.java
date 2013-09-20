@@ -1,8 +1,10 @@
 package org.thomas.lighthouse.scripts;
 
+import java.awt.Component;
 import java.io.File;
 
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.thomas.lighthouse.editor.EditorPane;
@@ -14,12 +16,22 @@ public class ScriptPanel extends JPanel {
 	
 	public ScriptPanel(EditorPane p) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		File f = new File(".\\scripts");
-		String[] scripts = f.list();
-		actions = new ScriptAction[scripts.length];
-		for (int i = 0; i < scripts.length; i++) {
-			actions[i] = new ScriptAction(scripts[i], p);
-			add(new ScriptButton(actions[i]));
+		File f = new File(".\\Scripts");
+		this.add(getNode(f, p));
+	}
+	
+	public Component getNode(File file, EditorPane p) {
+		if (file.isDirectory()) {
+			JPanel node = new JPanel();
+			node.setLayout(new BoxLayout(node, BoxLayout.Y_AXIS));
+			node.add(new JLabel(file.getName()));
+			for (File f : file.listFiles()) {
+				node.add(getNode(f, p));
+			}
+			return node;
 		}
+		ScriptAction action = new ScriptAction(file, p);
+		ScriptButton node = new ScriptButton(action);
+		return node;
 	}
 }

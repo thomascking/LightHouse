@@ -26,7 +26,7 @@ public class DownloadAction extends AbstractAction {
 				JOptionPane.PLAIN_MESSAGE,
 				null,
 				options,
-				options[1]);
+				options[0]);
 		if (option != 0) return;
 		p.download(panel.getFTPName(), 
 				panel.getHost(), 

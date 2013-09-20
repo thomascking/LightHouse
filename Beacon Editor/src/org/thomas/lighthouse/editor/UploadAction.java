@@ -26,7 +26,7 @@ public class UploadAction extends AbstractAction {
 				JOptionPane.PLAIN_MESSAGE,
 				null,
 				options,
-				options[1]);
+				options[0]);
 		if (option != 0) return;
 		p.upload(panel.getFTPName(), 
 				panel.getHost(), 
