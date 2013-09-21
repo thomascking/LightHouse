@@ -9,12 +9,10 @@ Auto-tag closing
 
 SFTP file upload and download
 
-TODO
-====
-Create Projects
-
 Syntax Highlighting
 
+TODO
+====
 Start Tests
 
 Font and color customization
@@ -25,21 +23,21 @@ Assign Hotkeys to scripts
 
 Add a menu bar
 
-Add toolbar for common commands
+Extend toolbar for common commands
 
 Save settings between seesions
 
 Allow .xls editing
 
-Link projects to remote server
-
-Allow editing in multiple tabs
-
 Allow script ordering
 
-Allow tabbing of all selected lines
-
-Replace all tab characters with tab value on paste
-
 Create an executable
+
+Allow users to close tabs
+
+Save opened tabs between sessions
+
+Have password field request focus on upload/download panel
+
+
 

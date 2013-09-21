@@ -11,10 +11,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JViewport;
 
+import jsyntaxpane.DefaultSyntaxKit;
+
+import org.thomas.lighthouse.editor.CSSEditorPane;
 import org.thomas.lighthouse.editor.EditorPane;
 import org.thomas.lighthouse.editor.EditorScrollPane;
+import org.thomas.lighthouse.editor.JSEditorPane;
 import org.thomas.lighthouse.editor.SFTPPanel;
+import org.thomas.lighthouse.editor.XMLEditorPane;
 import org.thomas.lighthouse.project.NewProjectPanel;
 import org.thomas.lighthouse.project.Project;
 import org.thomas.lighthouse.project.ProjectPanel;
@@ -34,7 +40,7 @@ public class LightHouse extends JFrame {
 	
 	private static LightHouse lh;
 	private static JTabbedPane tabPane;
-	private static ProjectPanel projectPanel;
+	public static ProjectPanel projectPanel;
 	
 	public static void setProject(Project p) {
 		project = p;
@@ -43,6 +49,7 @@ public class LightHouse extends JFrame {
 	}
 
 	public static void main(String[] args) {
+		DefaultSyntaxKit.initKit();
 		loadConfig(new File("settings.txt"));
 		
 		if (args.length > 0) {
@@ -55,6 +62,10 @@ public class LightHouse extends JFrame {
 			project = null;
 		}
 		sftPanel = new SFTPPanel();
+		if (project != null) {
+			sftPanel.setHost(project.host);
+			sftPanel.setDirectory(project.directory);
+		}
 		newProjectPanel = new NewProjectPanel();
 		
 		tabPane = new JTabbedPane();
@@ -97,17 +108,32 @@ public class LightHouse extends JFrame {
 		Component[] comps = tabPane.getComponents();
 		for (Component comp : comps) {
 			if (comp instanceof EditorScrollPane) {
-				if (((EditorScrollPane)comp).getFile().equals(f)) {
+				if (((EditorPane) (((JViewport) (((JScrollPane) comp).getViewport()))).getView()).file.equals(f)) {
 					tabPane.setSelectedComponent(comp);
 					return;
 				}
 			}
 		}
-		EditorPane e = new EditorPane(f);
+		String path = f.getName();
+		String ext = path.substring(path.lastIndexOf('.') + 1);
+		EditorPane e;
+		if (ext.equals("xml")) {
+			e = new XMLEditorPane();
+		}
+		else if (ext.equals("js") || ext.equals("json")) {
+			e = new JSEditorPane();
+		}
+		else if (ext.equals("css")) {
+			e = new CSSEditorPane();
+		}
+		else {
+			e = new EditorPane();
+		}
 		currentPane = e;
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(e, BorderLayout.CENTER);
-		Component c = new EditorScrollPane(p, e);
+		Component c = new JScrollPane(e);//EditorScrollPane(p, e);
+		e.setup(f);
 		Path pathAbsolute = Paths.get(f.getAbsolutePath());
         Path pathBase = Paths.get(LightHouse.project.localDirectory.getAbsolutePath());
         Path pathRelative = pathBase.relativize(pathAbsolute);

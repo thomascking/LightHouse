@@ -11,7 +11,7 @@ public class EditorScrollPane extends JScrollPane {
 	EditorPane p;
 	
 	public EditorScrollPane(JPanel p, EditorPane e) {
-		super(p);
+		super(e);
 		this.p = e;
 		this.getVerticalScrollBar().setUnitIncrement(8);
 	}

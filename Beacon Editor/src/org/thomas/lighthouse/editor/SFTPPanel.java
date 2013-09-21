@@ -57,4 +57,12 @@ public class SFTPPanel extends JPanel {
 	public String getPassword() {
 		return fields[3].getText();
 	}
+	
+	public void setHost(String t) {
+		fields[1].setText(t);
+	}
+	
+	public void setDirectory(String t) {
+		fields[2].setText(t);
+	}
 }

@@ -20,6 +20,7 @@ public class ProjectPanel extends JPanel implements MouseListener {
 	}
 	
 	public void update() {
+		removeAll();
 		if (LightHouse.project != null) {
 			tree = new JTree(createNode(LightHouse.project.getWorkingDirectory()));
 			tree.addMouseListener(this);
