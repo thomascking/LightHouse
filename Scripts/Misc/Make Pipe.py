@@ -4,7 +4,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""().strip()
+        input = "".strip()
     
     # get rid of blank lines
     while "\n\n" in input:

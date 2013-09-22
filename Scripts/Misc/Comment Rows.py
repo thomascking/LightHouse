@@ -3,7 +3,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""()
+        input = ""
 
     while "\n\n" in input:
         input = input.replace("\n\n", "\n")

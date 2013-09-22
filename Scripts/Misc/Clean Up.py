@@ -5,7 +5,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""().strip()
+        input = "".strip()
 
     #CLEAN UP THE TABS
     input = re.sub("\t+", " ", input)

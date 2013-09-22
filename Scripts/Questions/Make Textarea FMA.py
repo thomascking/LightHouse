@@ -4,7 +4,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""().strip()
+        input = "".strip()
 
     input = re.sub(r"^(\w?\d+)\.(\d+)",r"\1_\2",input)
 

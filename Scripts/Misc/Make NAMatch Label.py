@@ -4,7 +4,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""().strip()
+        input = "".strip()
         
     #CLEAN UP INITIAL SPACES AND THE EXTRA LINE BREAKS
     input = re.sub("\n\s{2,}", "\n", input)

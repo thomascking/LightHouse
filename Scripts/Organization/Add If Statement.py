@@ -3,7 +3,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""().strip()
+        input = "".strip()
     print "<if label=\"\" cond=\"\">\n%s\n<suspend/>\n</if>" % input
     
     

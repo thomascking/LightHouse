@@ -6,7 +6,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""()
+        input = ""
     
     #CLEAN UP THE TABS
     input = re.sub("\t+", " ", input)
@@ -26,7 +26,7 @@ try:
     
     for x in input:
         print "  <choice label=\"ch%s\" value=\"%s\">%s</choice>" % (str(length - count), length - count, x.strip())
-        count += 1
+        count += 1h
 except Exception, e:
     print e
 

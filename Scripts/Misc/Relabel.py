@@ -4,7 +4,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""().strip("\n").split("\n")
+        input = "".strip("\n").split("\n")
 
     startlabel = re.findall("label=['\"]\w+['\"]", input[0])[0].replace("label=","").strip("\"'") # get first label
     startelement = re.findall("<col|<row|<choice", input[0])[0]

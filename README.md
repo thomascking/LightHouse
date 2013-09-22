@@ -39,5 +39,6 @@ Save opened tabs between sessions
 
 Have password field request focus on upload/download panel
 
+More Scripts
 
-
+New file creation

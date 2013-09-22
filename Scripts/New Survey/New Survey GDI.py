@@ -4,7 +4,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""().strip()
+        input = "".strip()
     input = re.sub("\t+", " ", input)
     input = re.sub("\n +\n", "\n\n", input)
     funkyChars = [(chr(133),'...'),(chr(145),"'"),(chr(146),"'"),(chr(147),'"'),(chr(148),'"'),(chr(151),'--')]

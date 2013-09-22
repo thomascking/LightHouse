@@ -4,7 +4,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""().strip("\n").split("\n")
+        input = "".strip("\n").split("\n")
 
     for i in range(len(input)):
         if "<row" in input[i]:

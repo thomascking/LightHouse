@@ -3,7 +3,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""().strip()
+        input = "".strip()
     print "<comment where=\"none\">%s</comment>" % input
 except Exception, e:
     print e

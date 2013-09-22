@@ -3,7 +3,7 @@ try:
     try:
         input = str(sys.argv[1])
     except:
-        input = ""().split("\n")
+        input = "".split("\n")
     while "" in input:
         del input[input.index("")]
     for x in input:
