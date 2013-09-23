@@ -17,6 +17,7 @@ public class Project implements Serializable {
 	public String host;
 	public String directory;
 	public File localDirectory;
+	public File file;
 	
 	// create a project with specified name in this location
 	public Project(String name, File directory, String host, String remoteDirectory) {
@@ -31,10 +32,10 @@ public class Project implements Serializable {
 				return;
 			}
 		}
-		File settingsFile = new File(projectDir, name + ".proj");
+		file = new File(projectDir, name + ".proj");
 		ObjectOutputStream fos;
 		try {
-			fos = new ObjectOutputStream(new FileOutputStream(settingsFile));
+			fos = new ObjectOutputStream(new FileOutputStream(file));
 			fos.writeObject(this);
 			fos.flush();
 			fos.close();
@@ -49,7 +50,9 @@ public class Project implements Serializable {
 			Object o = in.readObject();
 			in.close();
 			if (o instanceof Project) {
-				return (Project)o;
+				Project p = (Project)o;
+				p.file = project;
+				return p;
 			}
 			return null;
 		} catch (Exception exc) {

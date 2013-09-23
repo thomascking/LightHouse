@@ -25,15 +25,11 @@ Add a menu bar
 
 Extend toolbar for common commands
 
-Save settings between sessions
-
 Allow .xls editing
 
 Allow script ordering
 
 Create an executable
-
-Allow users to close tabs
 
 Save opened tabs between sessions
 
@@ -48,3 +44,7 @@ Find and replace
 Question/label finder drop down
 
 Question preview
+
+Display dialog on uploads and downloads
+
+Save size as non-maximized size

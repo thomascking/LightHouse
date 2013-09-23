@@ -5,7 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -36,9 +41,9 @@ public class LightHouse extends JFrame implements WindowListener {
 	public static NewProjectPanel newProjectPanel;
 	public static EditorPane currentPane;
 	
-	private Dimension size = new Dimension(800, 600);
+	private static Dimension size = new Dimension(800, 600);
 	private static boolean isMaximized = false;
-	private static String defaultProject = "";
+	private static File defaultProject = null;
 	
 	private static LightHouse lh;
 	private static JTabbedPane tabPane;
@@ -51,14 +56,15 @@ public class LightHouse extends JFrame implements WindowListener {
 	}
 
 	public static void main(String[] args) {
+		loadSettings();
 		DefaultSyntaxKit.initKit();
 		loadConfig(new File("settings.txt"));
 		
 		if (args.length > 0) {
 			project = Project.load(new File(args[0]));
 		}
-		else if (defaultProject != "") {
-			project = Project.load(new File(defaultProject));
+		else if (defaultProject != null) {
+			project = Project.load(defaultProject);
 		}
 		else {
 			project = null;
@@ -83,7 +89,8 @@ public class LightHouse extends JFrame implements WindowListener {
 	public LightHouse() {
 		super("Light House");
 		loadEditorElements();
-		setSize(size);
+		setSize(LightHouse.size);
+		this.addWindowListener(this);
 	}
 	
 	public static void loadConfig(File settings) {
@@ -146,8 +153,33 @@ public class LightHouse extends JFrame implements WindowListener {
 		tabPane.setSelectedComponent(c);
 	}
 	
-	private void writeSettings() {
-		
+	private static void loadSettings() {
+		File inFile = new File("lighthouse.settings");
+		if (!inFile.exists()) return;
+		try {
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(inFile));
+			Settings settings = (Settings)in.readObject();
+			LightHouse.isMaximized = settings.maximized;
+			LightHouse.size = settings.windowSize;
+			LightHouse.defaultProject = settings.projectFile;
+			in.close();
+		} catch(Exception exc) {}
+	}
+	
+	private static void writeSettings() {
+		Settings settings = new Settings();
+		settings.maximized = (lh.getExtendedState() & JFrame.MAXIMIZED_BOTH) != 0;
+		settings.windowSize = lh.getSize();
+		if (project != null)
+			settings.projectFile = project.file;
+		File outFile = new File("lighthouse.settings");
+		ObjectOutputStream out = null;
+		try {
+			out = new ObjectOutputStream(new FileOutputStream(outFile));
+			out.writeObject(settings);
+			out.flush();
+			out.close();
+		} catch(Exception exc) {}
 	}
 
 	@Override
@@ -160,7 +192,7 @@ public class LightHouse extends JFrame implements WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		writeSettings();
+		LightHouse.writeSettings();
 	}
 
 	@Override
