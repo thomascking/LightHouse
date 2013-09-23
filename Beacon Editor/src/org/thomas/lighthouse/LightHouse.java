@@ -3,6 +3,8 @@ package org.thomas.lighthouse;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,7 +28,7 @@ import org.thomas.lighthouse.project.Project;
 import org.thomas.lighthouse.project.ProjectPanel;
 import org.thomas.lighthouse.scripts.ScriptPanel;
 
-public class LightHouse extends JFrame {
+public class LightHouse extends JFrame implements WindowListener {
 	private static final long serialVersionUID = -4406258341931634328L;
 	
 	public static Project project;
@@ -138,7 +140,38 @@ public class LightHouse extends JFrame {
         Path pathBase = Paths.get(LightHouse.project.localDirectory.getAbsolutePath());
         Path pathRelative = pathBase.relativize(pathAbsolute);
         String diff = pathRelative.toString().replace("\\", "/");
+        int count = tabPane.getTabCount();
 		tabPane.addTab(diff, c);
+		tabPane.setTabComponentAt(count, new TabPanel(diff, tabPane));
 		tabPane.setSelectedComponent(c);
 	}
+	
+	private void writeSettings() {
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		System.exit(0);
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		writeSettings();
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {}
+
+	@Override
+	public void windowIconified(WindowEvent e) {}
+
+	@Override
+	public void windowOpened(WindowEvent e) {}
 }

@@ -53,7 +53,7 @@ KeyListener, DocumentListener, UndoableEditListener {
 	
 	JFileChooser fileChooser = new JFileChooser();
 	SaveAction save;
-	SaveAction saveAs;
+	//SaveAction saveAs;
 	OpenAction open;
 	
 	UploadAction upload;
@@ -83,7 +83,7 @@ KeyListener, DocumentListener, UndoableEditListener {
 		undo = new UndoManager();
 		
 		save = new SaveAction(this, fileChooser);
-		saveAs = new SaveAction(this, fileChooser, true);
+		//saveAs = new SaveAction(this, fileChooser, true);
 		open = new OpenAction(this, fileChooser);
 		
 		upload = new UploadAction(this);
@@ -96,8 +96,8 @@ KeyListener, DocumentListener, UndoableEditListener {
 		Keymap custom = JTextPane.addKeymap("custom", parent);
 		KeyStroke saveStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK, false);
 		custom.addActionForKeyStroke(saveStroke, save);
-		KeyStroke saveAsStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK, false);
-		custom.addActionForKeyStroke(saveAsStroke, saveAs);
+		//KeyStroke saveAsStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK, false);
+		//custom.addActionForKeyStroke(saveAsStroke, saveAs);
 		KeyStroke openStroke = KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK, false);
 		custom.addActionForKeyStroke(openStroke, open);
 		

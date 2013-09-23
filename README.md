@@ -25,7 +25,7 @@ Add a menu bar
 
 Extend toolbar for common commands
 
-Save settings between seesions
+Save settings between sessions
 
 Allow .xls editing
 
@@ -42,3 +42,9 @@ Have password field request focus on upload/download panel
 More Scripts
 
 New file creation
+
+Find and replace
+
+Question/label finder drop down
+
+Question preview
