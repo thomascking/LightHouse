@@ -48,3 +48,5 @@ Question preview
 Display dialog on uploads and downloads
 
 Save size as non-maximized size
+
+Project upload

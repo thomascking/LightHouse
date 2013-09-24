@@ -25,10 +25,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Keymap;
-import javax.swing.text.StyledDocument;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
@@ -40,7 +38,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
 public class EditorPane extends JEditorPane implements 
-KeyListener, DocumentListener, UndoableEditListener {
+KeyListener, DocumentListener, UndoableEditListener, FileEditor {
 	private static final long serialVersionUID = 8420314647717129823L;
 	
 	String tab = "  ";
@@ -70,6 +68,10 @@ KeyListener, DocumentListener, UndoableEditListener {
 		init();
 		fileChooser.setSelectedFile(f);
 		file = f;
+	}
+	
+	public File getFile() {
+		return file;
 	}
 	
 	public void init() {
@@ -103,13 +105,13 @@ KeyListener, DocumentListener, UndoableEditListener {
 		
 		KeyStroke uploadStroke = KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK, false);
 		custom.addActionForKeyStroke(uploadStroke, upload);
-		KeyStroke downloadStroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK, false);
+	    KeyStroke downloadStroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK, false);
 		custom.addActionForKeyStroke(downloadStroke, download);
 		
-		KeyStroke undoStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK, false);
-		custom.addActionForKeyStroke(undoStroke, undoAction);
-		KeyStroke redoStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK, false);
-		custom.addActionForKeyStroke(redoStroke, redoAction);
+		//KeyStroke undoStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK, false);
+		//custom.addActionForKeyStroke(undoStroke, undoAction);
+		//KeyStroke redoStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK, false);
+		//custom.addActionForKeyStroke(redoStroke, redoAction);
 		
 		this.setKeymap(custom);
 	}

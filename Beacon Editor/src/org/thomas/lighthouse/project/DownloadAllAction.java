@@ -2,8 +2,6 @@ package org.thomas.lighthouse.project;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
@@ -43,7 +41,6 @@ public class DownloadAllAction extends AbstractAction {
 		JSch jsch = new JSch();
 		Session s = null;
 		ChannelSftp sftp = null;
-		InputStream in = null;
 		try{
 			s = jsch.getSession(username, host, 22);
 			s.setConfig("StrictHostKeyChecking", "no");
@@ -70,6 +67,7 @@ public class DownloadAllAction extends AbstractAction {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void downloadDirectory(ChannelSftp sftp, String dir, File localDir) {
 		try {
 			sftp.cd(dir);

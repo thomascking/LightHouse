@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,21 +18,25 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import jsyntaxpane.DefaultSyntaxKit;
 
 import org.thomas.lighthouse.editor.CSSEditorPane;
 import org.thomas.lighthouse.editor.EditorPane;
 import org.thomas.lighthouse.editor.EditorScrollPane;
+import org.thomas.lighthouse.editor.FileEditor;
 import org.thomas.lighthouse.editor.JSEditorPane;
 import org.thomas.lighthouse.editor.SFTPPanel;
+import org.thomas.lighthouse.editor.XLSEditor;
 import org.thomas.lighthouse.editor.XMLEditorPane;
 import org.thomas.lighthouse.project.NewProjectPanel;
 import org.thomas.lighthouse.project.Project;
 import org.thomas.lighthouse.project.ProjectPanel;
 import org.thomas.lighthouse.scripts.ScriptPanel;
 
-public class LightHouse extends JFrame implements WindowListener {
+public class LightHouse extends JFrame implements WindowListener, ChangeListener {
 	private static final long serialVersionUID = -4406258341931634328L;
 	
 	public static Project project;
@@ -79,6 +82,7 @@ public class LightHouse extends JFrame implements WindowListener {
 		tabPane = new JTabbedPane();
 		
 		lh = new LightHouse();
+		tabPane.addChangeListener(lh);
 		lh.setVisible(true);
 		if (isMaximized) {
 			lh.setExtendedState(lh.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -117,7 +121,7 @@ public class LightHouse extends JFrame implements WindowListener {
 		Component[] comps = tabPane.getComponents();
 		for (Component comp : comps) {
 			if (comp instanceof EditorScrollPane) {
-				if (((EditorPane) (((JViewport) (((JScrollPane) comp).getViewport()))).getView()).file.equals(f)) {
+				if (((FileEditor) (((JViewport) (((JScrollPane) comp).getViewport()))).getView()).getFile().equals(f)) {
 					tabPane.setSelectedComponent(comp);
 					return;
 				}
@@ -125,24 +129,34 @@ public class LightHouse extends JFrame implements WindowListener {
 		}
 		String path = f.getName();
 		String ext = path.substring(path.lastIndexOf('.') + 1);
-		EditorPane e;
+		EditorPane e = null;
+		Component comp = null;
+		FileEditor editor = null;
 		if (ext.equals("xml")) {
 			e = new XMLEditorPane();
+			comp = e;
 		}
 		else if (ext.equals("js") || ext.equals("json")) {
 			e = new JSEditorPane();
+			comp = e;
 		}
 		else if (ext.equals("css")) {
 			e = new CSSEditorPane();
+			comp = e;
+		}
+		else if (ext.equals("xls")) {
+			comp = new XLSEditor();
 		}
 		else {
 			e = new EditorPane();
+			comp = e;
 		}
+		editor = (FileEditor)comp;
 		currentPane = e;
 		JPanel p = new JPanel(new BorderLayout());
-		p.add(e, BorderLayout.CENTER);
+		p.add(comp, BorderLayout.CENTER);
 		Component c = new JScrollPane(e);//EditorScrollPane(p, e);
-		e.setup(f);
+		editor.setup(f);
 		Path pathAbsolute = Paths.get(f.getAbsolutePath());
         Path pathBase = Paths.get(LightHouse.project.localDirectory.getAbsolutePath());
         Path pathRelative = pathBase.relativize(pathAbsolute);
@@ -206,4 +220,16 @@ public class LightHouse extends JFrame implements WindowListener {
 
 	@Override
 	public void windowOpened(WindowEvent e) {}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		Component comp = tabPane.getSelectedComponent();
+		comp = (((JViewport) (((JScrollPane) comp).getViewport()))).getView();
+		if (comp instanceof EditorPane) {
+			LightHouse.currentPane = (EditorPane)comp;
+		}
+		else {
+			LightHouse.currentPane = null;
+		}
+	}
 }

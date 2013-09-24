@@ -26,6 +26,7 @@ public class ScriptAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		EditorPane p = LightHouse.currentPane;
+		if (p == null) return;
 		String selected = p.getSelectedText();
 		if (selected == null) selected = "";
 		String newString = "";
