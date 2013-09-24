@@ -1,7 +1,10 @@
 package org.thomas.lighthouse.editor;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -12,7 +15,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-public class XLSEditor extends JTabbedPane implements FileEditor {
+public class XLSEditor extends JTabbedPane implements FileEditor, KeyListener {
 	private static final long serialVersionUID = -151802936055292075L;
 	
 	File file;
@@ -21,6 +24,7 @@ public class XLSEditor extends JTabbedPane implements FileEditor {
 	
 	public XLSEditor() {
 		this.setTabPlacement(JTabbedPane.BOTTOM);
+		addKeyListener(this);
 	}
 
 	@Override
@@ -87,10 +91,56 @@ public class XLSEditor extends JTabbedPane implements FileEditor {
 			}
 			for (JTable t : tables) {
 				addTab(t.getName(), new JScrollPane(t));
+				t.addKeyListener(this);
 			}
 		} catch(Exception exc) {
 			exc.printStackTrace();
 		}
 	}
 
+	public void write(File f) {
+		int sheets = this.getTabCount();
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		for (int i = 0; i < sheets; i++) {
+			HSSFSheet sheet = workbook.createSheet(tables[i].getName());
+			for (int r = 0; r < tables[i].getRowCount(); r++) {
+				HSSFRow row = sheet.createRow(r);
+				for (int c = 0; c < tables[i].getColumnCount(); c++) {
+					HSSFCell cell = row.createCell(c);
+					Object val = tables[i].getValueAt(r, c);
+					if (val instanceof String) {
+						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+						cell.setCellValue((String)val);
+					}
+					else if (val instanceof Number) {
+						cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+						cell.setCellValue(((Number)val).intValue());
+					}
+					else {
+						cell.setCellType(HSSFCell.CELL_TYPE_BLANK);
+					}
+				}
+			}
+		}
+		try {
+			FileOutputStream fos = new FileOutputStream(f);
+			workbook.write(fos);
+		} catch(Exception exc) {
+			exc.printStackTrace();
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_S && e.isControlDown()) {
+			write(file);
+			e.consume();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {}
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
 }

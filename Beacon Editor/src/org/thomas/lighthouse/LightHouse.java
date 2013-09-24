@@ -118,14 +118,14 @@ public class LightHouse extends JFrame implements WindowListener, ChangeListener
 	}
 	
 	public static void addTab(File f) {
-		Component[] comps = tabPane.getComponents();
+		/*Component[] comps = tabPane.getComponents();
 		for (Component comp : comps) {
 			if ((comp instanceof JPanel && ((FileEditor)((JPanel)comp).getComponents()[0]).getFile().equals(f)) ||
 					(comp instanceof JScrollPane && ((FileEditor) ((JPanel)(((JViewport) (((JScrollPane) comp).getViewport()))).getView()).getComponents()[0]).getFile().equals(f))) {
 				tabPane.setSelectedComponent(comp);
 				return;
 			}
-		}
+		}*/
 		String path = f.getName();
 		String ext = path.substring(path.lastIndexOf('.') + 1);
 		EditorPane e = null;
