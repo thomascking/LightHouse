@@ -20,6 +20,7 @@ public class XLSEditor extends JTabbedPane implements FileEditor {
 	JTable[] tables;
 	
 	public XLSEditor() {
+		this.setTabPlacement(JTabbedPane.BOTTOM);
 	}
 
 	@Override
@@ -48,8 +49,8 @@ public class XLSEditor extends JTabbedPane implements FileEditor {
 					if (tmp > cols) cols = tmp;
 				}
 				
-				String[][] data = new String[rows][cols];
-				String[] names = new String[cols];
+				String[][] data = new String[rows > 50 ? rows : 50][cols > 10 ? cols : 10];
+				String[] names = new String[cols > 10 ? cols : 10];
 				for (int r = 0; r < rows; r++) {
 					HSSFRow row = sheet.getRow(r);
 					if (row == null) continue;
@@ -69,7 +70,7 @@ public class XLSEditor extends JTabbedPane implements FileEditor {
 						}
 					}
 				}
-				for (int j = 0; j < cols; j++) {
+				for (int j = 0; j < names.length; j++) {
 					String val = "";
 					int k = j;
 					while (k > 0) {
@@ -79,6 +80,8 @@ public class XLSEditor extends JTabbedPane implements FileEditor {
 					}
 					names[j] = val;
 				}
+				if (names.length > 0)
+					names[0] = "A";
 				tables[i] = new JTable(data, names);
 				tables[i].setName(sheet.getSheetName());
 			}

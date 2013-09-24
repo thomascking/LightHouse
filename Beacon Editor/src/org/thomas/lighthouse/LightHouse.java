@@ -120,11 +120,10 @@ public class LightHouse extends JFrame implements WindowListener, ChangeListener
 	public static void addTab(File f) {
 		Component[] comps = tabPane.getComponents();
 		for (Component comp : comps) {
-			if (comp instanceof EditorScrollPane) {
-				if (((FileEditor) (((JViewport) (((JScrollPane) comp).getViewport()))).getView()).getFile().equals(f)) {
-					tabPane.setSelectedComponent(comp);
-					return;
-				}
+			if ((comp instanceof JPanel && ((FileEditor)((JPanel)comp).getComponents()[0]).getFile().equals(f)) ||
+					(comp instanceof JScrollPane && ((FileEditor) ((JPanel)(((JViewport) (((JScrollPane) comp).getViewport()))).getView()).getComponents()[0]).getFile().equals(f))) {
+				tabPane.setSelectedComponent(comp);
+				return;
 			}
 		}
 		String path = f.getName();
@@ -155,7 +154,7 @@ public class LightHouse extends JFrame implements WindowListener, ChangeListener
 		currentPane = e;
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(comp, BorderLayout.CENTER);
-		Component c = new JScrollPane(e);//EditorScrollPane(p, e);
+		Component c = e != null ? new JScrollPane(p) : p;//EditorScrollPane(p, e);
 		editor.setup(f);
 		Path pathAbsolute = Paths.get(f.getAbsolutePath());
         Path pathBase = Paths.get(LightHouse.project.localDirectory.getAbsolutePath());
@@ -224,6 +223,7 @@ public class LightHouse extends JFrame implements WindowListener, ChangeListener
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		Component comp = tabPane.getSelectedComponent();
+		if (comp == null || !(comp instanceof JScrollPane)) return;
 		comp = (((JViewport) (((JScrollPane) comp).getViewport()))).getView();
 		if (comp instanceof EditorPane) {
 			LightHouse.currentPane = (EditorPane)comp;
